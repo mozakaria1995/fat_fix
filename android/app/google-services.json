@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "625978118995",
+    "project_id": "fat-fix",
+    "storage_bucket": "fat-fix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625978118995:android:1b0adc9fbcb2fb819087a6",
+        "android_client_info": {
+          "package_name": "com.amadoctorsdigitalsystem.fat_fix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "625978118995-4b9ouk852gvsieheu2hoda6fs8742njp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvmwYh_qmYMLpktU-B2QRNhGSEf6o_wXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "625978118995-4b9ouk852gvsieheu2hoda6fs8742njp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

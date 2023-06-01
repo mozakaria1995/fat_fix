@@ -1,7 +1,6 @@
 import 'package:auth_manager/new/base/base_repo.dart';
 import 'package:auth_manager/new/model/Video_list_model.dart';
 import 'package:auth_manager/new/model/article_list_model.dart';
-import 'package:auth_manager/new/model/doctor_info_model.dart';
 import 'package:auth_manager/new/network/Endpoints.dart';
 
 class SectionDetailsRepo extends BaseRepo {

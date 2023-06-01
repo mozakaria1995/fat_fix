@@ -53,12 +53,15 @@ class _LandingScreenState extends BaseState<LandingScreen, LandingBloc> {
     return Scaffold(
       backgroundColor: ColorManager.scaffoldBackGround,
       key: _key,
-      appBar: CustomAppBar(
-        title: titles[tabIndex],
-        onDrawerIconClicked: () => _key.currentState!.openDrawer(),
-        onSearchClicked: () {
-          print("ss");
-        },
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: CustomAppBar(
+          title: titles[tabIndex],
+          onDrawerIconClicked: () => _key.currentState!.openDrawer(),
+          onSearchClicked: () {
+            print("ss");
+          },
+        ),
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(bottom: 8),

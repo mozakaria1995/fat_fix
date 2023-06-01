@@ -16,8 +16,8 @@ class AppointmentCard extends StatelessWidget {
 
   const AppointmentCard(
       {required this.reservationModel,
-      required this.onCancelClicked,
-      this.isProfile = false});
+        required this.onCancelClicked,
+        this.isProfile = false});
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +44,12 @@ class AppointmentCard extends StatelessWidget {
                   TitleWidget(
                     title: reservationModel.service!.title ?? "",
                     fontSize: AppSize.s12,
-                    color: ColorManager.black,
+                    color: ColorManager.checkUpColor,
                   ),
                   TitleWidget(
                     title: getReservationStatus(),
                     fontSize: AppSize.s14,
-                    color: ColorManager.primary,
+                    color: ColorManager.paidColor,
                   )
                 ],
               ),
@@ -64,7 +64,8 @@ class AppointmentCard extends StatelessWidget {
 
                 children: [
                   Container(
-                    color: ColorManager.primary,
+
+                    color: ColorManager.paidColor,
                     height: 55,
                     width: 4,
                   ),
@@ -76,10 +77,10 @@ class AppointmentCard extends StatelessWidget {
                         !isProfile
                             ?( dayInMonth.toArabicDigits() + " " + month.toArabicMonth() + " " + year.toArabicDigits() )
                             : (reservationModel.dateInDaysStatus == true
-                                ? "متبقي ${reservationModel.dateInDays} يوم  "
-                                : reservationModel.dateInHoursStatus == true ?"متبقي ${reservationModel.dateInHours} ساعة  ":"متبقي ${reservationModel.dateInMints} دقيقة  "),
+                            ? "متبقي ${reservationModel.dateInDays} يوم  "
+                            : reservationModel.dateInHoursStatus == true ?"متبقي ${reservationModel.dateInHours} ساعة  ":"متبقي ${reservationModel.dateInMints} دقيقة  "),
                         style: TextStyle(
-                            color: ColorManager.separatorColor,
+                            color: Colors.red,
                             fontFamily: FontManager.fontFamily,
                             fontWeight: FontWeightManager.regular,
                             fontSize: FontSizeManager.s12),
@@ -97,12 +98,17 @@ class AppointmentCard extends StatelessWidget {
                 ],
               ),
               SizedBox(height: AppSize.s16),
-              AppButton(
-                  width: 70,
-                  height: 25,
-                  buttonColor: Colors.redAccent,
-                  onPressed: () => onCancelClicked(),
-                  title: "إلغاء الحجز")
+              Expanded(
+                child: Container(width: 100,
+                  child:
+
+                  AppButton(
+
+                      buttonColor: Colors.red,
+                      onPressed: () => onCancelClicked(),
+                      title: "إلغاء الحجز"),
+                ),
+              )
             ],
           ),
         ),

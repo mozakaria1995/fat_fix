@@ -18,7 +18,7 @@ class LoginBloc extends BaseBloc {
     try {
       view.showProgress();
       UserDataModel? response =
-          await loginRepo.loginRequest(phone: phone, password: password);
+      await loginRepo.loginRequest(phone: phone, password: password);
 
       view.hideProgress();
       if (response != null) {
@@ -31,6 +31,7 @@ class LoginBloc extends BaseBloc {
         return true;
       }
     } catch (error) {
+      print("wwwwwwwww");
       handleError(error);
     }
     return false;
@@ -62,7 +63,7 @@ class LoginBloc extends BaseBloc {
 
   Future<bool> checkFingerPrintIfAvailable() async {
     final List<BiometricType> availableBiometrics =
-        await LocalAuthApi.getBiometrics();
+    await LocalAuthApi.getBiometrics();
 
     if (availableBiometrics.contains(BiometricType.fingerprint)) {
       if (await LocalAuthApi.authenticate()) {

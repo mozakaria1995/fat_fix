@@ -24,7 +24,7 @@ class AuthRepo extends BaseRepo {
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+    await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -33,7 +33,7 @@ class AuthRepo extends BaseRepo {
     );
 
     final userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
     // Once signed in, return the UserCredential
     return userCredential;
   }
@@ -86,8 +86,8 @@ class AuthRepo extends BaseRepo {
 
   Future<bool?> changePasswordRequest(
       {required String oldPassword,
-      required String newPassword,
-      required String newPasswordConfirmation}) {
+        required String newPassword,
+        required String newPasswordConfirmation}) {
     return networkManager.post<bool>(Endpoints.UPDATE_PASSWORD_URL, body: {
       "old_password": oldPassword,
       "new_password": newPassword,

@@ -1,4 +1,3 @@
-import 'package:auth_manager/new/model/doctor_info_model.dart';
 import 'package:auth_manager/new/model/staff_response.dart';
 import 'package:auth_manager/new/ui/doctor_details/doctor_details_bloc.dart';
 import 'package:auth_manager/new/utils/resoures/color_manager.dart';

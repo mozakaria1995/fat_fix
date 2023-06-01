@@ -1,7 +1,7 @@
 class Endpoints {
   static const BASE_URL = //"https://amadoctors.com/api"
      // "https://demo.amadoctors.com/api"
-  "http://dashboard.fatfixclinic.com/api"
+  "https://dashboard.fatfixclinic.com/api"
   ;
   static const LOGIN_URL = "$BASE_URL/auth/login";
   static const SOCIAL_LOGIN_URL = "$BASE_URL/auth/social/login";

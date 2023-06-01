@@ -22,8 +22,8 @@ abstract class BaseBloc {
 
     try {
       if (e is DioError && e.response != null) {
-          response = Parser.parse<ErrorModel>(e.response!.data);
-          msg = response.message![0];
+        response = Parser.parse<ErrorModel>(e.response!.data);
+        msg = response.message![0];
         print(msg);
       } else {}
     } catch (err) {

@@ -1,7 +1,8 @@
 import 'package:auth_manager/new/base/base_repo.dart';
-import 'package:auth_manager/new/model/doctor_info_model.dart';
 import 'package:auth_manager/new/model/staff_response.dart';
 import 'package:auth_manager/new/network/Endpoints.dart';
+
+import '../../models/doctor_info_model.dart';
 
 class ClinicDetailsRepo extends BaseRepo {
 

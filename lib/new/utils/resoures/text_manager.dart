@@ -12,6 +12,8 @@ class AppStrings{
   static const String login = "تسجيل الدخول";
   static const String loginWithFingerPrint = "تسجيل الدخول بإستخدام البصمة";
   static const String confirm = "تأكيد";
+  static const String passwordT = " كلمة المرور";
+
   static const String signUpQuestion = "ليس لديك حساب؟ ";
   static const String signinQuestion = "لديك حساب؟ ";
   static const String signUp = "تسجيل الآن";

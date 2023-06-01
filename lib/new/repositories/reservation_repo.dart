@@ -17,9 +17,10 @@ class ReservationRepo extends BaseRepo {
     return networkManager.get<ReservationsResponse>(Endpoints.RESERVATIONS);
   }
 
-  Future<ReservationResponse?> getReservationById(int reservationId) {
-    return networkManager.get<ReservationResponse>(
-        "${Endpoints.SCHEDULED_RESERVATION}$reservationId");
+
+  Future getReservationById(int reservationId) async {
+    final response = await networkManager.get("${Endpoints.SCHEDULED_RESERVATION}$reservationId");
+    return ReservationModel.fromJson(response["data"]);
   }
 
   Future<MyReservationsModel?> getMyReservations() {

@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       // ignore: deprecated_member_use
-                      color: Theme.of(context).accentColor),
+                      color: Theme.of(context).colorScheme.secondary,),
                 ),
               ])),
             ),
@@ -322,7 +322,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       // ignore: deprecated_member_use
-                      color: Theme.of(context).accentColor),
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
               ])),
             ),

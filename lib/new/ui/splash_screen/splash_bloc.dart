@@ -2,8 +2,9 @@
 import 'package:auth_manager/new/base/base_bloc.dart';
 import 'package:auth_manager/new/base/base_view.dart';
 import 'package:auth_manager/new/cache/app_cache.dart';
-import 'package:auth_manager/new/model/doctor_info_model.dart';
 import 'package:auth_manager/new/repositories/doctor_details_repo.dart';
+
+import '../../../models/doctor_info_model.dart';
 
 class SplashBloc extends BaseBloc {
   SplashBloc(BaseView view) : super(view);

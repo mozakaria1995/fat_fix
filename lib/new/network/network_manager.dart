@@ -4,6 +4,10 @@ import 'package:auth_manager/new/cache/app_cache.dart';
 import 'package:auth_manager/new/network/parser.dart';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+
+import '../ui/login/login_screen.dart';
+final GlobalKey<NavigatorState> myNavigatorKey = GlobalKey<NavigatorState>();
 
 class NetworkManager {
   //static Alice? alice = Alice(
@@ -19,7 +23,37 @@ class NetworkManager {
 
   NetworkManager({this.cancelToken}) {
     dio = new Dio();
-    dio.options = BaseOptions(headers: headers);
+    dio.options = BaseOptions(
+        headers: headers,
+
+
+
+
+    );
+    // Add the global error interceptor
+    dio.interceptors.add(InterceptorsWrapper(
+      onError: (DioError error, handler) {
+        // Check if the response has a 401 status code
+        if (error.response?.statusCode == 401) {
+          // Navigate to the login screen
+          // Replace the navigation logic with your own implementation
+          print("error 401");
+                AppCache.instance.clearSession();
+                myNavigatorKey.currentState?.pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) =>  LoginScreen(),
+                  ),
+                      (route) {
+                    return false;
+                  },
+                );
+        }
+
+        // Pass the error to the next interceptor or error handler
+        handler.next(error);
+      },
+    ));
+
     dio.interceptors.add(LogInterceptor(
       requestBody: true,
       request: true,

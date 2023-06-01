@@ -7,13 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'new/cache/app_cache.dart';
 import 'new/cache/notification_handler.dart';
+import 'new/network/network_manager.dart';
 import 'new/ui/doctor_details/doctor_details_screen.dart';
 import 'new/ui/intro_video/video_screen.dart';
 import 'new/ui/login/login_screen.dart';
 import 'new/ui/splash_screen/splash_screen.dart';
 import 'new/utils/resoures/theme_manager.dart';
 
+
+
 void main() async {
+
+  HttpOverrides.global = MyHttpOverrides();
   if (defaultTargetPlatform == TargetPlatform.android) {
     HttpOverrides.global = MyHttpOverrides();
   }
@@ -46,7 +51,8 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [BotToastNavigatorObserver()],
       theme: getApplicationTheme(),
       initialRoute: "/",
-      builder: EasyLoading.init(builder: BotToastInit()),
+      navigatorKey: myNavigatorKey,
+        builder: EasyLoading.init(builder: BotToastInit()),
       debugShowCheckedModeBanner: false,
       home: //ForgetPasswordScreen(),
       //DoctorDetailsScreen(),

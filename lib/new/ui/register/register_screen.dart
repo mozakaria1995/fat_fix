@@ -4,7 +4,6 @@ import 'package:auth_manager/new/cache/app_cache.dart';
 import 'package:auth_manager/new/ui/landing/landing_screen.dart';
 import 'package:auth_manager/new/ui/login/login_screen.dart';
 import 'package:auth_manager/new/ui/register/register_bloc.dart';
-import 'package:auth_manager/new/utils/resoures/assets_manager.dart';
 import 'package:auth_manager/new/utils/resoures/color_manager.dart';
 import 'package:auth_manager/new/utils/resoures/font_manager.dart';
 import 'package:auth_manager/new/utils/resoures/text_manager.dart';
@@ -16,6 +15,8 @@ import 'package:auth_manager/new/widgets/title_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import '../../utils/resoures/assets_manager.dart';
 
 class RegisterScreen extends StatefulWidget {
   final UserCredential? userCredential;
@@ -254,6 +255,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterBloc> {
                                   Center(
                                     child: InputFieldWidget(
                                       validationText: "",
+                                      isPassword:true,
                                       textInputAction: TextInputAction.next,
                                       onchange: (val) {
                                         setState(() {
@@ -261,7 +263,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterBloc> {
                                         });
                                       },
                                       validation:
-                                          passwordController.text.isNotEmpty,
+                                      passwordController.text.isNotEmpty,
                                       width: size.width,
                                       lines: 1,
                                       controller: passwordController,
@@ -269,9 +271,9 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterBloc> {
                                       height: AppSize.s60,
                                       suffix: passwordController.text.isNotEmpty
                                           ? Image.asset(
-                                              "assets/images/check.png")
+                                          "assets/images/check.png")
                                           : Image.asset(
-                                              "assets/images/error-icon.png"),
+                                          "assets/images/error-icon.png"),
                                     ),
                                   ),
                                   const SizedBox(
@@ -285,6 +287,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterBloc> {
                                   ),
                                   Center(
                                     child: InputFieldWidget(
+                                      isPassword:true,
                                       textInputAction: TextInputAction.next,
                                       onchange: (val) {
                                         setState(() {
@@ -295,20 +298,20 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterBloc> {
                                       validation: passwordController.text ==
                                           passwordConfirmationController.text,
                                       validationText:
-                                          AppStrings.inValidPassword,
+                                      AppStrings.inValidPassword,
                                       width: size.width,
                                       lines: 1,
                                       controller:
-                                          passwordConfirmationController,
+                                      passwordConfirmationController,
                                       obscure: true,
                                       height: AppSize.s60,
                                       suffix: (passwordController.text ==
-                                              passwordConfirmationController
-                                                  .text)
+                                          passwordConfirmationController
+                                              .text)
                                           ? Image.asset(
-                                              "assets/images/check.png")
+                                          "assets/images/check.png")
                                           : Image.asset(
-                                              "assets/images/error-icon.png"),
+                                          "assets/images/error-icon.png"),
                                     ),
                                   ),
                                   const SizedBox(

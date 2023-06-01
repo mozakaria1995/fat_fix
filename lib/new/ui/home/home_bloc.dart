@@ -6,26 +6,29 @@ import 'package:auth_manager/new/model/my_reservations_model.dart';
 import 'package:auth_manager/new/model/reservation_model.dart';
 import 'package:auth_manager/new/model/reservation_request_model.dart';
 import 'package:auth_manager/new/model/reservation_response_model.dart';
+import 'package:auth_manager/new/network/network_manager.dart';
 import 'package:auth_manager/new/repositories/reservation_repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../cache/app_cache.dart';
 import '../Payment_web_view/payment_screen.dart';
 
 class HomeBloc extends BaseBloc {
+  ReservationModel? reservationModel;
+
   HomeBloc(BaseView view) : super(view);
   bool isLoading=true;
 
-
   ReservationRepo reservationRepo = ReservationRepo();
   StreamController<List<ReservationModel>?> reservationsController =
-      BehaviorSubject();
-  StreamController<ReservationResponse?> appointmentsByServiceIdController =
-      BehaviorSubject();
+  BehaviorSubject();
+  // StreamController<ReservationResponse?> appointmentsByServiceIdController =
+  //     BehaviorSubject();
 
   StreamController<MyReservationsModel?> myReservationsController =
-      BehaviorSubject();
+  BehaviorSubject();
 
   void getReservations() {
     reservationsController.add(null);
@@ -51,27 +54,41 @@ class HomeBloc extends BaseBloc {
     });
   }
 
-  void getReservationsByServiceId(int serviceId) {
-    isLoading=true;
-    appointmentsByServiceIdController.add(null);
-    reservationRepo.getReservationById(serviceId).then((response) {
+  Future<ReservationModel> getReservationsByServiceId(int serviceId) async {
 
+    var response;
 
-      appointmentsByServiceIdController.add(response);
-      isLoading=false;
-    }, onError: (error) {
-      if(error is DioError){
-        isLoading=false;
+    try {
+      response = await reservationRepo.getReservationById(serviceId);
+      reservationModel = ReservationModel.fromJson(response["data"]);
+      isLoading = false;
+    } catch (error) {
+      if (error is DioError) {
+        isLoading = false;
       }
-      print(error);
       handleError(error);
-      if (!appointmentsByServiceIdController.isClosed) {
-        isLoading=false;
+    }
 
-        appointmentsByServiceIdController.addError(error);
-      }
-    });
+    return response;
   }
+
+
+  // Future getReservationsByServiceId(int serviceId) async {
+  //     reservationModel = null;
+  //     isLoading = true;
+  //
+  //     return reservationRepo.getReservationById(serviceId)
+  //         .then((response) {
+  //       reservationModel = ReservationModel.fromJson(response["data"]);
+  //       isLoading = false;
+  //     })
+  //         .catchError((error) {
+  //       if (error is DioError) {
+  //         isLoading = false;
+  //       }
+  //       handleError(error);
+  //     });
+  //   }
 
 
   Future<ReservationResponseModel?> requestCashOnDeliverReservation(
@@ -79,7 +96,7 @@ class HomeBloc extends BaseBloc {
     try {
       view.showProgress();
       final response =
-          await reservationRepo.reserveCashOnDeliverReservation(requestModel);
+      await reservationRepo.reserveCashOnDeliverReservation(requestModel);
       view.hideProgress();
       if (response != null) {
         return response;
@@ -90,6 +107,7 @@ class HomeBloc extends BaseBloc {
     }
     return null;
   }
+
 
   Future<ReservationResponseModel?> requestCreditReservation(
       ReservationRequestModel requestModel,context) async {
@@ -116,6 +134,7 @@ class HomeBloc extends BaseBloc {
     try {
       view.showProgress();
       final response = await reservationRepo.cancelReservation(reservationId);
+
       view.hideProgress();
       if (response != null) {
         return true;
@@ -132,6 +151,6 @@ class HomeBloc extends BaseBloc {
     reservationRepo.dispose();
     reservationsController.close();
     myReservationsController.close() ;
-    appointmentsByServiceIdController.close();
+    // appointmentsByServiceIdController.close();
   }
 }

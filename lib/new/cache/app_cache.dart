@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'package:auth_manager/new/model/doctor_info_model.dart';
 import 'package:auth_manager/new/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../models/doctor_info_model.dart';
 
 class AppCache {
   static final AppCache _instance = AppCache._private();
@@ -35,6 +36,12 @@ class AppCache {
   UserDataModel? getUserModel() {
     String? json = _prefs!.getString(keyUser);
     return json == null ? null : UserDataModel.fromJson(jsonDecode(json));
+  }
+
+  Future <void> clearSession()async{
+    await _prefs!.remove(keyUser);
+    await _prefs!.remove(keyToken);
+    await _prefs?.clear();
   }
 
   Future<void> logout() async {

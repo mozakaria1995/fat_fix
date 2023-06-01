@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:auth_manager/new/base/base_state.dart';
 import 'package:auth_manager/new/model/reservation_request_model.dart';
 import 'package:auth_manager/new/ui/Payment_web_view/payment_bloc.dart';
 import 'package:auth_manager/new/utils/resoures/color_manager.dart';
@@ -8,6 +7,7 @@ import 'package:auth_manager/new/utils/resoures/font_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../base/base_state.dart';
 import '../../repositories/reservation_repo.dart';
 
 class PaymentScreen extends StatefulWidget {

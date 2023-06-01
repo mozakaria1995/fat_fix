@@ -409,7 +409,6 @@ class _UserProfileScreenState
           setState(() => ageController.text = value.toString()),
       selectedNumber: int.parse(
         AppCache.instance.getUserModel()!.data!.age!,
-        onError: (source) => 5,
       ),
     );
   }
@@ -424,7 +423,6 @@ class _UserProfileScreenState
       confirmText: "تأكيد",
       selectedNumber: int.parse(
         AppCache.instance.getUserModel()!.data!.height!,
-        onError: (source) => 50,
       ),
       onChanged: (value) =>
           setState(() => heightController.text = value.toString()),
@@ -443,7 +441,6 @@ class _UserProfileScreenState
           setState(() => weightController.text = value.toString()),
       selectedNumber: int.parse(
         AppCache.instance.getUserModel()!.data!.weight!,
-        onError: (source) => 4,
       ),
     );
   }

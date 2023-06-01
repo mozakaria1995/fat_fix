@@ -148,7 +148,7 @@ class _ProfileScreenState extends BaseState<ProfileScreen, ProfileBloc> {
             ],
           ),
         );
-        ;
+
       },
     );
   }

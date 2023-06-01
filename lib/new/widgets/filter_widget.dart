@@ -25,9 +25,9 @@ class FilterBottomSheet extends StatefulWidget {
 
   const FilterBottomSheet(
       {required this.reservationModel,
-      required this.selectedDate,
-      required this.upcoming,
-      required this.onReserve});
+        required this.selectedDate,
+        required this.upcoming,
+        required this.onReserve});
 
   @override
   State<FilterBottomSheet> createState() => _FilterBottomSheetState();
@@ -44,10 +44,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       .reservationModel.categories![0].upcomingSchedule
       .firstWhere((element) => element.date == widget.selectedDate);
   late String selectedSlot = selectedDateSchedule.availableSlots[0].time;
+
   late List selectedSlotID=selectedDateSchedule.availableSlots[0].reservationServiceDaySlotsIds;
 
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -56,6 +58,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(widget.reservationModel.title!,style: TextStyle(fontSize: 16,color: Colors.red,fontWeight: FontWeight.bold),)),
+            ),
             TitleWidget(
               title: AppStrings.title,
               fontSize: 24,
@@ -89,13 +97,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             //     ],
             //   ),
             // ),
-            const SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10,),
+
             DropdownButtonFormField<Categories>(
               icon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.white),
               isExpanded: true,
-              dropdownColor: ColorManager.primary,
+              dropdownColor:ColorManager.primary,
               decoration: InputDecoration(
                 fillColor: ColorManager.primary,
 
@@ -127,6 +134,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               },
             ),
 
+
+            // const SizedBox(
+            //   height: 25,
+            // ),
             // Visibility(
             //   visible: widget.reservationModel.hasConsultation == "1",
             //   child: TitleWidget(
@@ -168,6 +179,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         selectedDateSchedule.availableSlots[i].time,
                   );
                 }),
+
             const SizedBox(height: 25),
             Center(
               child: Row(
@@ -175,8 +187,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 children: [
                   AppointmentTimeWidget(
                     time: formatDate(
-                            DateTime.tryParse(selectedDateSchedule.date)!,
-                            [d]).toArabicDigits() +
+                        DateTime.tryParse(selectedDateSchedule.date)!,
+                        [d]).toArabicDigits() +
                         " " +
                         formatDate(
                             DateTime.tryParse(selectedDateSchedule.date)!,
@@ -255,7 +267,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                           Radio(
                             value: 1,
                             groupValue: radioSelection,
-                            activeColor: ColorManager.primary,
+                            activeColor: ColorManager.checkUpColor,
                             onChanged: (value) {
                               setState(() {
                                 radioSelection = 1;
@@ -279,7 +291,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         Radio(
                           value: 2,
                           groupValue: radioSelection,
-                          activeColor: ColorManager.primary,
+                          activeColor: ColorManager.checkUpColor,
                           onChanged: (value) {
                             setState(() {
                               radioSelection = 2;
@@ -296,6 +308,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 ),
               ],
             ),
+
             Center(
               child: AppButton(
                 onPressed: () async {
@@ -308,6 +321,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       categoryId: _selectedCategory.id,
                       slotID: selectedSlotID,
                       userId: AppCache.instance.getUserModel()!.data!.id);
+
                   await widget.onReserve(reservationModel);
                 },
                 title: AppStrings.confirm,
@@ -317,5 +331,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         ),
       ),
     );
+
   }
 }

@@ -3,7 +3,6 @@ import 'package:auth_manager/new/model/Video_list_model.dart';
 import 'package:auth_manager/new/model/all_prev_reservations_response.dart';
 import 'package:auth_manager/new/model/article_list_model.dart';
 import 'package:auth_manager/new/model/contactus_model.dart';
-import 'package:auth_manager/new/model/doctor_info_model.dart';
 import 'package:auth_manager/new/model/my_reservations_model.dart';
 import 'package:auth_manager/new/model/payment_url.dart';
 import 'package:auth_manager/new/model/register_model.dart';
@@ -17,6 +16,8 @@ import 'package:auth_manager/new/model/staff_response.dart';
 import 'package:auth_manager/new/model/sucess_response_model.dart';
 import 'package:auth_manager/new/model/user_model.dart';
 
+import '../../models/doctor_info_model.dart';
+
 class Parser {
   static parse<T>(dynamic json) {
     switch (T) {
@@ -27,7 +28,7 @@ class Parser {
       case RegisterResponseModel:
         return RegisterResponseModel.successfromJson(json);
 
-      // reservations
+    // reservations
       case ReservationsResponse:
         return ReservationsResponse.fromJson(json);
       case ReservationResponse:
@@ -35,7 +36,7 @@ class Parser {
       case ReservationModel:
         return ReservationModel.fromJson(json);
 
-      //Blog
+    //Blog
       case BlogsResponseModel:
         return BlogsResponseModel.fromJson(json);
       case BlogModel:
@@ -80,7 +81,7 @@ class Parser {
         return StaffMemberResponse.fromJson(json);
       case AllPreviousReservationsResponse:
         return AllPreviousReservationsResponse.fromJson(json);
-        case PreviousReservations:
+      case PreviousReservations:
         return PreviousReservations.fromJson(json);
       case SuccessResponse:
         return SuccessResponse.fromJson(json);

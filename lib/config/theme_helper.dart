@@ -40,7 +40,7 @@ class ThemeHelper {
       [String color1 = "", String color2 = ""]) {
     Color c1 = Theme.of(context).primaryColor;
     // ignore: deprecated_member_use
-    Color c2 = Theme.of(context).accentColor;
+    Color c2 = Theme.of(context).colorScheme.secondary;
     if (color1.isEmpty == false) {
       c1 = HexColor(color1);
     }

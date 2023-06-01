@@ -3,7 +3,7 @@ import 'package:auth_manager/new/utils/resoures/color_manager.dart';
 import 'package:auth_manager/new/utils/resoures/font_manager.dart';
 import 'package:flutter/material.dart';
 
-class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget {
   final String title;
 
   final Function() onDrawerIconClicked;

@@ -7,6 +7,7 @@ import 'package:auth_manager/new/model/reservation_response_model.dart';
 import 'package:auth_manager/new/model/upcoming_schedule_model.dart';
 import 'package:auth_manager/new/ui/Payment_web_view/payment_screen.dart';
 import 'package:auth_manager/new/ui/home/home_bloc.dart';
+import 'package:auth_manager/new/ui/landing/landing_screen.dart';
 import 'package:auth_manager/new/utils/resoures/color_manager.dart';
 import 'package:auth_manager/new/utils/resoures/font_manager.dart';
 import 'package:auth_manager/new/utils/resoures/values_manager.dart';
@@ -29,12 +30,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends BaseState<HomeScreen, HomeBloc> {
   List<ReservationModel>? servicesList;
   ReservationModel? selectedService;
-  List<UpcomingSchedule>? schedules;
+  List<UpcomingSchedule> schedules=[];
   List<Reservation>? myReservationsList;
   List<String?>? sliderList;
 
   @override
   void initState() {
+    print(AppCache.keyToken);
     super.initState();
 
     bloc.getReservations();
@@ -69,10 +71,7 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeBloc> {
               SizedBox(height: AppSize.s20),
               TitleWidget(
                   title:
-                      'مرحباً ${AppCache.instance.getUserModel()!.data!.firstName}',
-                color: ColorManager.primary,
-                fontSize: 16,
-              ),
+                  'مرحباً ${AppCache.instance.getUserModel()!.data!.firstName}'),
               SizedBox(height: FontSizeManager.s20),
               StreamBuilder<MyReservationsModel?>(
                 stream: bloc.myReservationsController.stream,
@@ -116,85 +115,75 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeBloc> {
                         return ServiceCard(
                           serviceModel: servicesList![i],
                           isSelected:
-                              servicesList![i].id == selectedService!.id,
+                          servicesList![i].id == selectedService!.id,
                           onClicked: () {
-                            if(bloc.isLoading!=true){
+                            print("XXXXX");
                             setState(() {
                               selectedService = servicesList![i];
                               bloc.getReservationsByServiceId(
                                   selectedService!.id!);
                             });
-                          }},
+
+                          },
                         );
                       })
-                  ),
+              ),
               SizedBox(height: AppSize.s25),
               TitleWidget(
                   title: selectedService != null
                       ? "مواعيد ال${selectedService!.title}"
-                      : "",
-                color: ColorManager.primary,
-                fontSize: 16,
-              ),
+                      : ""),
               SizedBox(height: AppSize.s20),
-              StreamBuilder<ReservationResponse?>(
-                stream: bloc.appointmentsByServiceIdController.stream,
-                builder:
-                    (context, AsyncSnapshot<ReservationResponse?> snapshot) {
-                  if (snapshot.hasData &&
-                      snapshot.data!.data!.categories![0].upcomingSchedule.length > 0) {
-                    schedules = snapshot.data!.data!.categories![0].upcomingSchedule;
-                    return Column(
-                        children: schedules!.map((schedule) {
-                      return schedule.availableSlots.length > 0
-                          ? HomeAppointmentCard(
-                              upcomingScheduledModel: schedule,
-                              photo: snapshot.data?.data?.photo ?? "",
-                              onTab: () => showModalBottomSheet(
-                                context: context,
-                                isDismissible: true,
-                                isScrollControlled: true,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                builder: (BuildContext context) {
-                                  Size size = MediaQuery.of(context).size;
-                                  return Container(
-                                    height: size.height * 0.9,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Padding(
-                                        padding: EdgeInsets.all(16),
-                                        child: FilterBottomSheet(
-                                          upcoming:snapshot.data!.data!.categories![0].upcomingSchedule,
-                                          reservationModel:
-                                              snapshot.data!.data!,
-                                          selectedDate: schedule.date,
-                                          onReserve:
-                                              (reservationRequestModel) async {
-                                            if (reservationRequestModel
-                                                    .paymentType ==
-                                                1) {
-                                              cashReservation(
-                                                  reservationRequestModel,
-                                                  schedule.date);
-                                            } else {
-                                              creditReservation(
-                                                  reservationRequestModel);
-                                            }
-                                          },
-                                        )),
-                                  );
-                                },
-                              ),
-                            )
-                          : Container();
-                    }).toList());
+              FutureBuilder<ReservationModel>(
+                future: bloc.getReservationsByServiceId(selectedService?.id??1),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center();
+                    return const Center(child: Text("حدث خطآ ما"));
+                  } else if (snapshot.hasData) {
+                    ReservationModel reservationModel = snapshot.data!;
+                    List<UpcomingSchedule> schedules = reservationModel.categories![0].upcomingSchedule;
+                    return Column(
+                      children: schedules.map((schedule) {
+                        return schedule.availableSlots.isNotEmpty
+                            ? HomeAppointmentCard(
+                          upcomingScheduledModel: schedule,
+                          photo: reservationModel.photo ?? "",
+                          onTab: () => showModalBottomSheet(
+                            context: context,
+                            isDismissible: true,
+                            isScrollControlled: true,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                            builder: (BuildContext context) {
+                              Size size = MediaQuery.of(context).size;
+                              return Container(
+                                height: size.height * 0.9,
+                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                                child: Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: FilterBottomSheet(
+                                    upcoming: schedules,
+                                    reservationModel: reservationModel,
+                                    selectedDate: schedule.date,
+                                    onReserve: (reservationRequestModel) async {
+                                      if (reservationRequestModel.paymentType == 1) {
+                                        cashReservation(reservationRequestModel, schedule.date);
+                                      } else {
+                                        creditReservation(reservationRequestModel);
+                                      }
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                            : Container();
+                      }).toList(),
+                    );
                   } else {
-                    return Center(child: CircularProgressIndicator());
+                    return Container();
                   }
                 },
               )
@@ -205,25 +194,30 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeBloc> {
 
   void cashReservation(ReservationRequestModel reservationRequestModel,
       String scheduleDate) async {
+    print("reserved");
     ReservationResponseModel? reservationResponse =
-        await bloc.requestCashOnDeliverReservation(reservationRequestModel);
+    await bloc.requestCashOnDeliverReservation(reservationRequestModel);
+    print("reserved2");
+
     if (reservationResponse != null) {
       Navigator.pop(context);
-      setState(() {
-        if (reservationRequestModel.reservationType == 1) {
-          schedules!
-              .firstWhere((element) => element.date == scheduleDate)
-              .availableSlots.removeWhere(
-                  (element) => element == reservationRequestModel.time);
-        } else {
-          schedules!
-              .firstWhere((element) => element.date == scheduleDate)
-              .availableSlots
-              .removeWhere(
-                  (element) => element == reservationRequestModel.time);
-        }
-      });
-      bloc.getMyReservationsList();
+      navigateToReplacement(LandingScreen());
+      // setState(() {
+        print("ziko ziko");
+
+        // print(schedules.length);
+        //
+        // schedules
+        //     .firstWhere((element) {
+        //
+        //   print(element);
+        //       return element.date == scheduleDate;
+        //     })
+        //     .availableSlots.removeWhere(
+        //         (element) => element == reservationRequestModel.time);
+
+      // });
+      // bloc.getMyReservationsList();
       showSuccessMsg("تم حجز الموعد بنجاح");
     }
   }
@@ -235,7 +229,11 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeBloc> {
     if(reservationResponse!=null){
       bloc.getMyReservationsList();
       bloc.getReservationsByServiceId(selectedService?.id! ?? 0);
-    }}
+    }
+
+
+
+  }
 
   void openCancelConfirmationDialog(int id) {
     showDialog(

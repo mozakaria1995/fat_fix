@@ -26,8 +26,8 @@ class Data {
   String? googleStoreLink;
   String? appleStoreLink;
   String? address;
-  String? lat;
-  String? lng;
+  var lat;
+  var lng;
   String? clinicInfo;
   String? introVideo;
   String? specialty1;
